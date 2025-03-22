@@ -4,21 +4,36 @@ import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here, such as an API call or form validation
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Redirect or further actions can be added
-    navigate('/home');  // Example redirection after login
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Login failed');
+
+      localStorage.setItem('token', data.token);
+      alert('Login successful!');
+      navigate('/profile');  // Redirect to Profile Page
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
     <div style={styles.body}>
       <div style={styles.loginContainer}>
         <h2 style={styles.title}>Login</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label>Email:</label>
@@ -57,7 +72,7 @@ const styles = {
     margin: 0,
     padding: 0,
     textAlign: 'center',
-    backgroundColor: '#f6ccff',  // Light Green
+    backgroundColor: '#f6ccff',  
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -96,9 +111,6 @@ const styles = {
     fontSize: '18px',
     transition: '0.3s',
     marginTop: '10px',
-  },
-  buttonHover: {
-    backgroundColor: '#006400',
   },
   paragraph: {
     marginTop: '15px',

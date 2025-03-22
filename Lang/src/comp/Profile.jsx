@@ -1,34 +1,56 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-  const [username, setUsername] = useState('User');
+  const [user, setUser] = useState(null);
   const [language, setLanguage] = useState('English');
-  const [progress, setProgress] = useState('0%');
-  const [achievements, setAchievements] = useState('No achievements yet');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
 
-  const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/profile', {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!response.ok) throw new Error('Session expired. Please log in again.');
+
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
+        alert(err.message);
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   return (
     <div style={styles.body}>
       <div style={styles.profileContainer}>
-        <h2 style={styles.heading}>Welcome, <span>{username}</span></h2>
+        <h2 style={styles.heading}>Welcome, <span>{user ? user.name : 'Loading...'}</span></h2>
         <div style={styles.profileBoxes}>
           <div style={styles.box}>
             <h3>Progress</h3>
-            <p>{progress}</p>
+            <p>{user ? `${user.progress}%` : 'Loading...'}</p>
           </div>
           <div style={styles.box}>
             <h3>Language</h3>
-            <select value={language} onChange={handleLanguageChange} style={styles.select}>
+            <select value={language} onChange={(e) => setLanguage(e.target.value)} style={styles.select}>
               <option value="English">English</option>
               <option value="Japanese">Japanese</option>
               <option value="French">French</option>
@@ -37,9 +59,10 @@ const Profile = () => {
           </div>
           <div style={styles.box}>
             <h3>Badges & Achievements</h3>
-            <p>{achievements}</p>
+            <p>{user ? user.achievements : 'Loading...'}</p>
           </div>
         </div>
+        <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
       </div>
     </div>
   );
@@ -52,7 +75,7 @@ const styles = {
     margin: 0,
     padding: 0,
     textAlign: 'center',
-    backgroundColor: '#ccffcc',  // Light Green
+    backgroundColor: '#ccffcc',  
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -86,11 +109,15 @@ const styles = {
     border: '1px solid #ccc',
     borderRadius: '5px',
   },
-  // Mobile responsiveness
-  '@media (max-width: 600px)': {
-    profileContainer: {
-      width: '90%',
-    },
+  logoutButton: {
+    marginTop: '20px',
+    padding: '10px 20px',
+    backgroundColor: '#d9534f',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
   },
 };
 
