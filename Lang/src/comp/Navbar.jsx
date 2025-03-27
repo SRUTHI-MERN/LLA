@@ -20,7 +20,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor:rgb(208, 62, 194), // Purple color
+    backgroundColor: '#6a0dad', // Purple color
     padding: '15px 30px',
     color: 'white',
   },

@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css'
+import Navbar from './comp/Navbar';
 import Lang from './comp/Lang';  
 import Login from "./comp/Login";
 import Signup from "./comp/Signup";
@@ -18,6 +19,7 @@ function App() {
   return (
     <>
       <div>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Lang/>}/>
           <Route path="/Login" element={<Login/>}/>

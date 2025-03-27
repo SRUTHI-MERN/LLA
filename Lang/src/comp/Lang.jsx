@@ -6,33 +6,7 @@ const Lang = () => {
   return (
     <div>
       {/* Small Taskbar */}
-      <header>
-        <h1 className="animated-heading">
-          <span>M</span>
-          <span>U</span>
-          <span>L</span>
-          <span>T</span>
-          <span>I</span>
-          <span>L</span>
-          <span>I</span>
-          <span>N</span>
-          <span>G</span>
-          <span>O</span>
-        </h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/Language">Language</Link> {/* Use Link instead of <a> for navigation */}
-            </li>
-            <li>
-              <Link to="/Login">Login</Link> 
-            </li>
-            <li>
-              <Link to="/Profile">Profile</Link> {/* Assuming Profile page exists */}
-            </li>
-          </ul>
-        </nav>
-      </header>
+      
 
       {/* Logo Section */}
       <div className="logo-container">
