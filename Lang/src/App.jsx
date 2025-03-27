@@ -18,8 +18,8 @@ function App() {
 
   return (
     <>
+      <Navbar />
       <div>
-        <Navbar />
         <Routes>
           <Route path="/" element={<Lang/>}/>
           <Route path="/Login" element={<Login/>}/>

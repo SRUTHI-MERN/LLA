@@ -1,71 +1,65 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Language = () => {
-  const navbarStyle = {
-    backgroundColor: '#333',
-    padding: '1rem',
-  };
-
+const LanguageSelection = () => {
   const containerStyle = {
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    background: 'linear-gradient(135deg, #A18CD1, #FBC2EB)', // Purple Gradient
+  };
+
+  const buttonStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
     alignItems: 'center',
   };
 
-  const logoStyle = {
-    color: 'white',
+  const languageButtons = [
+    { name: 'English', color: '#4A90E2' },  // Blue
+    { name: 'Japanese', color: '#E74C3C' }, // Red
+    { name: 'Chinese', color: '#F39C12' },  // Gold
+    { name: 'French', color: 'linear-gradient(to right, #0055A4, #ffffff, #EF4135)' }, // French Tricolor
+  ];
+
+  const buttonBaseStyle = {
+    padding: '15px 30px',
     fontSize: '1.5rem',
+    fontWeight: 'bold',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    textAlign: 'center',
     textDecoration: 'none',
-  };
-
-  const menuStyle = {
-    listStyleType: 'none',
-    display: 'flex',
-  };
-
-  const itemStyle = {
-    marginLeft: '20px',
-  };
-
-  const linkStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    fontSize: '1rem',
-  };
-
-  const linkHoverStyle = {
-    color: '#ff6347',
+    transition: 'transform 0.3s ease-in-out',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
   };
 
   return (
-    <nav style={navbarStyle}>
-      <div style={containerStyle}>
-        <ul style={menuStyle}>
-          <li style={itemStyle}>
-            <Link to="/English" style={linkStyle} onMouseEnter={(e) => e.target.style.color = linkHoverStyle.color} onMouseLeave={(e) => e.target.style.color = linkStyle.color}>
-              ENGLISH
-            </Link>
-          </li>
-          <li style={itemStyle}>
-            <Link to="/Japanese" style={linkStyle} onMouseEnter={(e) => e.target.style.color = linkHoverStyle.color} onMouseLeave={(e) => e.target.style.color = linkStyle.color}>
-              JAPANESE
-            </Link>
-          </li>
-          <li style={itemStyle}>
-            <Link to="/Chinese" style={linkStyle} onMouseEnter={(e) => e.target.style.color = linkHoverStyle.color} onMouseLeave={(e) => e.target.style.color = linkStyle.color}>
-              CHINESE
-            </Link>
-          </li>
-          <li style={itemStyle}>
-            <Link to="/French" style={linkStyle} onMouseEnter={(e) => e.target.style.color = linkHoverStyle.color} onMouseLeave={(e) => e.target.style.color = linkStyle.color}>
-              FRENCH
-            </Link>
-          </li>
-        </ul>
+    <div style={containerStyle}>
+      <h2 style={{ color: '#fff', marginBottom: '20px', fontSize: '2rem' }}>Choose Your Language</h2>
+      <div style={buttonStyle}>
+        {languageButtons.map(({ name, color }) => (
+          <Link
+            key={name}
+            to={`/${name}`}
+            style={{
+              ...buttonBaseStyle,
+              background: color,
+            }}
+            onMouseEnter={(e) => (e.target.style.transform = 'scale(1.1)')}
+            onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+          >
+            {name}
+          </Link>
+        ))}
       </div>
-    </nav>
+    </div>
   );
 };
 
-export default Language;
+export default LanguageSelection;

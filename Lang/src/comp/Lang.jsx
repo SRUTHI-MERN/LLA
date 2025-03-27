@@ -5,9 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Lang = () => {
   return (
     <div>
-      {/* Small Taskbar */}
       
-
       {/* Logo Section */}
       <div className="logo-container">
         <img 

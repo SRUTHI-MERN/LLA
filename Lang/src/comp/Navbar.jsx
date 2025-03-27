@@ -1,14 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/login'); // Navigate to login page when clicked
+  };
+
   return (
     <nav style={styles.navbar}>
-      <h1 style={styles.logo}>Language Learning App</h1>
+      <h1 style={styles.logo}>MULTILINGO</h1>
       <div>
         <Link to="/" style={styles.navLink}>Home</Link>
-        <Link to="/profile" style={styles.navLink}>Profile</Link>
-        <Link to="/login" style={styles.navLink}>Login</Link> {/* Styled same as Home & Profile */}
+        <Link to="/Profile" style={styles.navLink}>Profile</Link>
+        <Link to="/Language" style={styles.navLink}>Language</Link>
+        <Link to="/login" style={styles.navLink}>Login</Link>
       </div>
     </nav>
   );
@@ -20,7 +27,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#6a0dad', // Purple color
+    backgroundColor:'#d435cc', // Purple color
     padding: '15px 30px',
     color: 'white',
   },
@@ -33,7 +40,7 @@ const styles = {
     textDecoration: 'none',
     margin: '0 15px',
     fontSize: '18px',
-  }
+  },
 };
 
 export default Navbar;

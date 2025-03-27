@@ -1,33 +1,93 @@
-import React from 'react';
+import React from "react";
 
-const Japanese = () => {
-  const containerStyle = {
-    textAlign: 'center',
-    marginTop: '50px',
-  };
+const JapaneseAlphabets = () => {
+  const hiragana = [
+    { letter: "あ", phonetic: "a" }, { letter: "い", phonetic: "i" },
+    { letter: "う", phonetic: "u" }, { letter: "え", phonetic: "e" },
+    { letter: "お", phonetic: "o" }, { letter: "か", phonetic: "ka" },
+    { letter: "き", phonetic: "ki" }, { letter: "く", phonetic: "ku" },
+    { letter: "け", phonetic: "ke" }, { letter: "こ", phonetic: "ko" },
+    { letter: "さ", phonetic: "sa" }, { letter: "し", phonetic: "shi" },
+    { letter: "す", phonetic: "su" }, { letter: "せ", phonetic: "se" },
+    { letter: "そ", phonetic: "so" }, { letter: "た", phonetic: "ta" },
+    { letter: "ち", phonetic: "chi" }, { letter: "つ", phonetic: "tsu" },
+    { letter: "て", phonetic: "te" }, { letter: "と", phonetic: "to" },
+  ];
 
-  const headingStyle = {
-    fontSize: '3rem',
-    color: '#333',
-    marginBottom: '20px',
-  };
-
-  const imageStyle = {
-    width: '300px', // You can adjust the size of the image
-    height: 'auto',
-    borderRadius: '10px',
+  const styles = {
+    container: {
+      background: "linear-gradient(to right, #a855f7, #ec4899)",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "20px",
+      color: "white",
+    },
+    nav: {
+      background: "white",
+      color: "#ec4899",
+      padding: "10px",
+      width: "100%",
+      textAlign: "center",
+      fontWeight: "bold",
+      fontSize: "1.5rem",
+      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    },
+    title: {
+      fontSize: "2.5rem",
+      fontWeight: "bold",
+      marginTop: "20px",
+      textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+    },
+    grid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+      gap: "20px",
+      background: "white",
+      color: "black",
+      padding: "20px",
+      borderRadius: "10px",
+      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+      maxWidth: "800px",
+      marginTop: "20px",
+    },
+    card: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      padding: "15px",
+      border: "1px solid #ddd",
+      borderRadius: "10px",
+      boxShadow: "2px 2px 8px rgba(0, 0, 0, 0.1)",
+      transition: "background 0.3s",
+    },
+    letter: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+      color: "#ec4899",
+    },
+    phonetic: {
+      fontSize: "1.2rem",
+      color: "#555",
+      marginTop: "5px",
+    },
   };
 
   return (
-    <div style={containerStyle}>
-      <h1 style={headingStyle}>JAPANESE ALPHABETS</h1>
-      <img
-        style={imageStyle}
-        src="data:image/png;base64,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"
-        alt="Placeholder"
-      />
+    <div style={styles.container}>
+      <nav style={styles.nav}>Languages bring people together</nav>
+      <h1 style={styles.title}>JAPANESE ALPHABETS</h1>
+      <div style={styles.grid}>
+        {hiragana.map(({ letter, phonetic }) => (
+          <div key={letter} style={styles.card}>
+            <span style={styles.letter}>{letter}</span>
+            <span style={styles.phonetic}>{phonetic}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default Japanese;
+export default JapaneseAlphabets;
