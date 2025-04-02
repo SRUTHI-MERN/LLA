@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const EnglishAlphabets = () => {
   const alphabets = [
@@ -13,11 +13,33 @@ const EnglishAlphabets = () => {
     { letter: "Q", phonetic: "/kjuː/" }, { letter: "R", phonetic: "/ɑr/" },
     { letter: "S", phonetic: "/ɛs/" }, { letter: "T", phonetic: "/tiː/" },
     { letter: "U", phonetic: "/juː/" }, { letter: "V", phonetic: "/viː/" },
-    { letter: "W", phonetic: "/ˈdʌbəl.juː/" }, { letter: "X", phonetic: "/ɛks/" },
+    { letter: "W", phonetic: "/ˈdʌb.əl.juː/" }, { letter: "X", phonetic: "/ɛks/" },
     { letter: "Y", phonetic: "/waɪ/" }, { letter: "Z", phonetic: "/ziː/" },
   ];
 
-  const styles = {
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showQuiz, setShowQuiz] = useState(false);
+
+  const handleStartQuiz = () => {
+    setShowQuiz(true);
+    setQuizIndex(0);
+    setScore(0);
+  };
+
+  const handleAnswer = (selectedPhonetic) => {
+    if (selectedPhonetic === alphabets[quizIndex].phonetic) {
+      setScore(score + 1);
+    }
+    if (quizIndex < alphabets.length - 1) {
+      setQuizIndex(quizIndex + 1);
+    } else {
+      alert(`Quiz Completed! Your Score: ${score + 1}/${alphabets.length}`);
+      setShowQuiz(false);
+    }
+  };
+
+  const styles = {  
     container: {
       background: "linear-gradient(to right, #a855f7, #ec4899)",
       minHeight: "100vh",
@@ -75,20 +97,44 @@ const EnglishAlphabets = () => {
       color: "#555",
       marginTop: "5px",
     },
+    button: {
+      marginTop: "20px",
+      padding: "10px 20px",
+      fontSize: "1.2rem",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      background: "#ec4899",
+      color: "white",
+    },
   };
 
   return (
     <div style={styles.container}>
       <nav style={styles.nav}>Languages bring people together</nav>
       <h1 style={styles.title}>ENGLISH ALPHABETS</h1>
-      <div style={styles.grid}>
-        {alphabets.map(({ letter, phonetic }) => (
-          <div key={letter} style={styles.card}>
-            <span style={styles.letter}>{letter}</span>
-            <span style={styles.phonetic}>{phonetic}</span>
+      {!showQuiz ? (
+        <>
+          <div style={styles.grid}>
+            {alphabets.map(({ letter, phonetic }) => (
+              <div key={letter} style={styles.card}>
+                <span style={styles.letter}>{letter}</span>
+                <span style={styles.phonetic}>{phonetic}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <button onClick={handleStartQuiz} style={styles.button}>Start Quiz</button>
+        </>
+      ) : (
+        <div>
+          <h2>What is the phonetic pronunciation of "{alphabets[quizIndex].letter}"?</h2>
+          {alphabets.map(({ phonetic }) => (
+            <button key={phonetic} style={styles.button} onClick={() => handleAnswer(phonetic)}>
+              {phonetic}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
